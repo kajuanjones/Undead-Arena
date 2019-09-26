@@ -37,7 +37,7 @@ public class JumpMan : MonoBehaviour
     {
         
     }
-
+    // Test
     // Update is called once per frame
     void Update()
     {
