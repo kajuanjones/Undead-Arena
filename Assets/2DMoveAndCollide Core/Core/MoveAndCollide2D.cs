@@ -20,7 +20,7 @@ public class MoveAndCollide2D : PhysicsObject
         onLand.Invoke();
     }
 
-    // FInd a better solution for this manual velocity switching.
+    // Find a better solution for this manual velocity switching.
 
     public void SetVelocity(Vector2 velocity){
         this.local_TargetVelocity = velocity;
