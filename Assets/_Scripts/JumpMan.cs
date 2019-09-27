@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JumpMan : MonoBehaviour
 {
-   
+
     public MoveAndCollide2D movement;
     public float xInput;
     public float yInput;
@@ -15,7 +15,7 @@ public class JumpMan : MonoBehaviour
     public float jumpForce;
 
     public int wallJumpDirection = 0;
-    public int jumpCount = 0;
+    public int jumpsRemaining = 0;
     public int maxJumpCount = 2;
 
     public bool wallSliding;
@@ -26,6 +26,11 @@ public class JumpMan : MonoBehaviour
     public float wallJumpDuration = 0.5f;
     private float wallJumpT;
 
+    public bool dashing;
+    public float dashDuration = 0.5f;
+    private float dashT;
+
+
 
     public void Awake()
     {
@@ -35,7 +40,7 @@ public class JumpMan : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
     // Test
     // Update is called once per frame
@@ -46,9 +51,10 @@ public class JumpMan : MonoBehaviour
         Vector2 playerInput = new Vector2(Input.GetAxis("Horizontal"), 0);
         Vector2 moveDirection = Vector2.zero;
 
-        if(movement.grounded || movement.wallCollision)
+        if (movement.grounded || movement.wallCollision)
         {
-            jumpCount = maxJumpCount;
+            // If we are grounded or next to wall, reset jumpCount
+            jumpsRemaining = maxJumpCount;
         }
 
         if (movement.onWall && playerInput.x > 0)
@@ -60,25 +66,35 @@ public class JumpMan : MonoBehaviour
             wallSlideLeft = true;
         }
 
-        if(!wallJumping)
+        if (!wallJumping && !dashing)
         {
             moveDirection = playerInput * moveSpeed;
 
-        } else if(wallJumping)
+        }
+        else if (wallJumping && !dashing)
         {
             moveDirection = Vector2.right * moveSpeed * wallJumpDirection;
             wallJumpT += Time.deltaTime;
 
-            if(wallJumpT > wallJumpDuration)
+            if (wallJumpT > wallJumpDuration)
             {
                 wallJumpT = 0;
                 wallJumping = false;
             }
         }
-
-        if(Input.GetButtonDown("Jump") && ((movement.grounded || movement.onWall) || jumpCount > 0))
+        else if (dashing && !wallJumping)
         {
-            if(!wallJumping)
+
+        }
+        else if (wallJumping && dashing)
+        {
+
+        }
+
+        if (Input.GetButtonDown("Jump") && ((movement.grounded || movement.onWall)
+            || jumpsRemaining > 0))
+        {
+            if (!wallJumping)
             {
                 Jump();
             }
@@ -90,7 +106,15 @@ public class JumpMan : MonoBehaviour
             }
 
         }
-       
+
+        if (movement.grounded && Input.GetButtonDown("Fire3"))
+        {
+            moveSpeed *= 2;
+        }
+        if(Input.GetButtonUp("Fire3")){
+            moveSpeed = 7;
+        }
+
         movement.SetVelocity(moveDirection);  //Velocity equals moveDirection
 
     }
@@ -99,7 +123,7 @@ public class JumpMan : MonoBehaviour
     {
         int direction = 1;
 
-         if (wallSlideLeft)
+        if (wallSlideLeft)
         {
             direction = 1;
         }
@@ -108,13 +132,13 @@ public class JumpMan : MonoBehaviour
             direction = -1;
         }
 
-        Debug.Log(direction);
+        //Debug.Log(direction);
         return direction;
     }
 
     private void Jump()
     {
         movement.velocity = new Vector2(movement.velocity.x, jumpForce);
-        jumpCount--;
+        jumpsRemaining--;
     }
 }
