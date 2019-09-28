@@ -339,13 +339,16 @@ MonoBehaviour:
   moveSpeed: 7
   jumpForce: 10
   wallJumpDirection: 0
-  jumpCount: 0
+  faceDirection: 0
+  jumpsRemaining: 0
   maxJumpCount: 2
   wallSliding: 0
   wallSlideLeft: 0
   wallSlideRight: 0
   wallJumping: 0
   wallJumpDuration: 0.2
+  jumpDashing: 0
+  jumpDashDuration: 0.8
 --- !u!1 &1662180275
 GameObject:
   m_ObjectHideFlags: 0

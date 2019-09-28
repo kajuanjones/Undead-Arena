@@ -131,6 +131,13 @@ public class JumpMan : MonoBehaviour
 
         }
 
+        if(Input.GetAxis("Vertical") < 0 && !movement.grounded && !wallJumping && !jumpDashing) {
+            // Down  or S key was pressed while jumping, ground pound.
+            movement.velocity = new Vector2(0, jumpForce * -3.5f);
+
+            //TODO more interesting things with ground pound.
+        }
+
         if ((movement.grounded || wallJumping) && Input.GetButtonDown("Fire3"))
         {
             // left shift is being pressed, start sprinting
