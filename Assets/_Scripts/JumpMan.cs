@@ -28,7 +28,7 @@ public class JumpMan : MonoBehaviour
     private float wallJumpT;
 
     public bool jumpDashing;
-    public float jumpDashDuration = 0.8f;
+    public float jumpDashDuration = 0.3f;
     private float jumpDashT;
 
 
@@ -41,15 +41,18 @@ public class JumpMan : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        faceDirection = 1;
     }
     // Test
     // Update is called once per frame
     void Update()
     {
+        // While jump dashing, negate gravity
+        movement.SetYOverride(jumpDashing);
+
         wallSliding = wallSlideLeft = wallSlideRight = false;
 
-        Vector2 playerInput = new Vector2(Input.GetAxis("Horizontal"), 0);
+        Vector2 playerInput = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         Vector2 moveDirection = Vector2.zero;
 
         if (playerInput.x < 0)
@@ -101,11 +104,13 @@ public class JumpMan : MonoBehaviour
         }
         else if (jumpDashing)
         {
+            // Set y velocity to zero
+            movement.velocity.y = 0;
             // jumpDash in direction player is facing
             moveDirection = Vector2.right * moveSpeed * 3 * faceDirection;
             jumpDashT += Time.deltaTime;
 
-            if (jumpDashT > jumpDashDuration)
+            if (jumpDashT > jumpDashDuration || movement.grounded)
             {
                 //jumpDash time has elapsed, stop jumpDashing
                 jumpDashT = 0;
