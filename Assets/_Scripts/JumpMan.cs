@@ -194,4 +194,12 @@ public class JumpMan : MonoBehaviour
         movement.velocity = new Vector2(movement.velocity.x, jumpForce);
         jumpsRemaining--;
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            other.gameObject.SetActive(false);
+        }
+    }
 }
