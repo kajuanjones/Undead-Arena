@@ -222,4 +222,15 @@ public class JumpMan : MonoBehaviour
             other.gameObject.SetActive(false);
         }
     }
+
+    /* private void OnCollision2D(Collider2D coll) {
+     * 
+     * if(!coll.gameObject.CompareTag("Breakable floor") || !groundPounding) {
+     *      return;
+     *   } else {
+     *      // Active particle system to show breaking?
+     *      // Destroy floor
+     *   }
+     * }
+     */
 }
