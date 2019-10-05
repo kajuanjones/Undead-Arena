@@ -9,29 +9,32 @@ public class JumpMan : MonoBehaviour
     public float xInput;
     public float yInput;
 
+    [Header("Set in Inspector")]
+    public float baseMoveSpeed;             // Initial player speed
+    public float jumpForce;                 // Determines how high player can jump
+    public int maxJumpCount = 2;            // Number of continuous jumps allowed
+    public int maxDashCount = 1;            // Number of continuous dashes allowed
+    public float wallJumpDuration = 0.5f;   
+    public float jumpDashDuration = 0.3f;   
+
+    [Header("Set Dynamically")]
+    public float moveSpeed;
+    public int wallJumpDirection = 0;       // Determines direction to push off wall
+    public int faceDirection = 0;           // Direction player character is facing
+    public int jumpsRemaining = 0;
+    public int dashesRemaining = 0;
+
     public float wallSlideSpeed;
     public float wallRecoverySpeed;
-    public float moveSpeed;
-    public float jumpForce;
-
-    public int wallJumpDirection = 0;
-    public int faceDirection = 0;
-    public int jumpsRemaining = 0;
-    public int maxJumpCount = 2;
+    private float wallJumpT;
+    private float jumpDashT;
 
     public bool wallSliding;
     public bool wallSlideLeft;
     public bool wallSlideRight;
-
+    private bool groundPounding;
     public bool wallJumping;
-    public float wallJumpDuration = 0.5f;
-    private float wallJumpT;
-
     public bool jumpDashing;
-    public float jumpDashDuration = 0.3f;
-    private float jumpDashT;
-
-
 
     public void Awake()
     {
@@ -42,6 +45,7 @@ public class JumpMan : MonoBehaviour
     void Start()
     {
         faceDirection = 1;
+        moveSpeed = baseMoveSpeed;
     }
     // Test
     // Update is called once per frame
@@ -55,21 +59,13 @@ public class JumpMan : MonoBehaviour
         Vector2 playerInput = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         Vector2 moveDirection = Vector2.zero;
 
-        if (playerInput.x < 0)
-        {
-            //Player was last facing left
-            faceDirection = -1;
-        }
-        else if (playerInput.x > 0)
-        {
-            //Player was last facing right
-            faceDirection = 1;
-        }
+        FacingDirection(playerInput.x);
 
         if (movement.grounded || movement.wallCollision)
         {
-            // If we are grounded or next to wall, reset jumpCount
+            // If we are grounded or on wall, reset jumpCount and dashCount
             jumpsRemaining = maxJumpCount;
+            dashesRemaining = maxDashCount;
         }
 
         if (movement.onWall && playerInput.x > 0)
@@ -83,11 +79,12 @@ public class JumpMan : MonoBehaviour
             wallSlideLeft = true;
         }
 
+        //------------Determine movement-------------\\
         if (!wallJumping && !jumpDashing)
         {
             //Basic move speed with no actions
+            groundPounding = false;
             moveDirection = playerInput * moveSpeed;
-
         }
         else if (wallJumping)
         {
@@ -136,8 +133,10 @@ public class JumpMan : MonoBehaviour
 
         }
 
-        if(Input.GetAxis("Vertical") < 0 && !movement.grounded && !wallJumping && !jumpDashing) {
+        if(Input.GetAxis("Vertical") < 0 && !movement.grounded && !wallJumping && !jumpDashing)
+        {
             // Down  or S key was pressed while jumping, ground pound.
+            groundPounding = true;
             movement.velocity = new Vector2(0, jumpForce * -3.5f);
 
             //TODO more interesting things with ground pound.
@@ -146,24 +145,46 @@ public class JumpMan : MonoBehaviour
         if ((movement.grounded || wallJumping) && Input.GetButtonDown("Fire3"))
         {
             // left shift is being pressed, start sprinting
-            moveSpeed *= 2;
+            moveSpeed = baseMoveSpeed * 2;
         }
-        else if (!movement.grounded && !wallJumping && Input.GetButtonDown("Fire3"))
+        else if (!movement.grounded && !wallJumping && Input.GetButtonDown("Fire3") 
+            && dashesRemaining > 0)
         {
-            // player is jumping and has pressed left shift
+            // player is jumping and has pressed left shift, jumpDash
             jumpDashing = true;
+            dashesRemaining--;
         }
 
         if (Input.GetButtonUp("Fire3"))
         {
             // Player is not sprinting
-            moveSpeed = 7;
+            moveSpeed = baseMoveSpeed;
         }
 
-        movement.SetVelocity(moveDirection);  //Velocity equals moveDirection
+        // Set player velocity
+        movement.SetVelocity(moveDirection);  
 
     }
 
+    /**
+     * FacingDirection method determines what direction the player character is
+     * facing.
+     * @param xInput The x axis input value
+     */
+    public void FacingDirection (float xInput)
+    {
+        if (xInput < 0)
+        {
+            //Player is facing left
+            faceDirection = -1;
+        }
+        else if (xInput > 0)
+        {
+            //Player is facing right
+            faceDirection = 1;
+        }
+    }
+    
     /**
     GetWallJumpDirection determines what direction to push off wall
     @returns -1 to push towards right and 1 to push towards left
@@ -181,7 +202,6 @@ public class JumpMan : MonoBehaviour
             direction = -1;
         }
 
-        //Debug.Log(direction);
         return direction;
     }
 
