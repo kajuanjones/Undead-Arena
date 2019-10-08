@@ -47,7 +47,7 @@ public class JumpMan : MonoBehaviour
         faceDirection = 1;
         moveSpeed = baseMoveSpeed;
     }
-    // Test
+    
     // Update is called once per frame
     void Update()
     {
@@ -59,7 +59,7 @@ public class JumpMan : MonoBehaviour
         Vector2 playerInput = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
         Vector2 moveDirection = Vector2.zero;
 
-        FacingDirection(playerInput.x);
+        GetFacingDirection(playerInput.x);
 
         if (movement.grounded || movement.wallCollision)
         {
@@ -171,7 +171,7 @@ public class JumpMan : MonoBehaviour
      * facing.
      * @param xInput The x axis input value
      */
-    public void FacingDirection (float xInput)
+    public void GetFacingDirection (float xInput)
     {
         if (xInput < 0)
         {
@@ -223,14 +223,18 @@ public class JumpMan : MonoBehaviour
         }
     }
 
-    /* private void OnCollision2D(Collider2D coll) {
-     * 
-     * if(!coll.gameObject.CompareTag("Breakable floor") || !groundPounding) {
-     *      return;
-     *   } else {
-     *      // Active particle system to show breaking?
-     *      // Destroy floor
-     *   }
-     * }
-     */
+    private void OnCollisionEnter2D(Collision2D collision) {
+
+        Debug.Log("Collision");
+     
+        if(collision.gameObject.tag != "BreakableFloor" || !groundPounding)
+        {
+            return;
+        }
+        else
+        {
+            Debug.Log("Floor Collision");
+            //Destroy(collision.gameObject);
+        }
+    }
 }

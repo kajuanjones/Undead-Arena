@@ -174,7 +174,7 @@ public class PhysicsObject : MonoBehaviour
 
         if (justLanded){
             OnLand();
-            Debug.Log("Just Landed");
+            //Debug.Log("Just Landed");
         }
 
         //Debug.Log(grounded);

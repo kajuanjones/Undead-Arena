@@ -1254,7 +1254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7012de4510e60df4cb0b2cda95a5c692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Directionmulti: 0
+  player: {fileID: 5690137103219010418}
+  speed: 0
+  speedDampening: 0.6
 --- !u!1 &232632939 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3755021810276922350, guid: eee25790e821b944192fcd1347eef5a4,
@@ -3342,8 +3344,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593282221}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 83.1, y: 6.7, z: 10}
-  m_LocalScale: {x: 2, y: 5, z: 1}
+  m_LocalPosition: {x: 83.083, y: 6.701, z: 10}
+  m_LocalScale: {x: 1.9660615, y: 5.00488, z: 1}
   m_Children: []
   m_Father: {fileID: 1183919729}
   m_RootOrder: 14
@@ -7364,12 +7366,14 @@ MonoBehaviour:
   baseMoveSpeed: 7
   jumpForce: 10
   maxJumpCount: 2
+  maxDashCount: 1
   wallJumpDuration: 0.2
   jumpDashDuration: 0.3
   moveSpeed: 7
   wallJumpDirection: 0
   faceDirection: 0
   jumpsRemaining: 0
+  dashesRemaining: 0
   wallSlideSpeed: 0
   wallRecoverySpeed: 0
   wallSliding: 0
