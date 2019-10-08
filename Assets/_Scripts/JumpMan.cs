@@ -221,20 +221,16 @@ public class JumpMan : MonoBehaviour
         {
             other.gameObject.SetActive(false);
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-
-        Debug.Log("Collision");
-     
-        if(collision.gameObject.tag != "BreakableFloor" || !groundPounding)
+        if (other.tag != "BreakableFloor" || !groundPounding)
         {
+            //Debug.Log("Non-Breakable Floor");
             return;
         }
         else
         {
-            Debug.Log("Floor Collision");
-            //Destroy(collision.gameObject);
+            Debug.Log("Collision: Breakable Ground");
+            Destroy(other);
         }
     }
 }
