@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JumpMan : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class JumpMan : MonoBehaviour
     public MoveAndCollide2D movement;
     public float xInput;
     public float yInput;
+    public Text countText;
+    public Text winText;
 
     [Header("Set in Inspector")]
     public float baseMoveSpeed;             // Initial player speed
@@ -23,6 +26,7 @@ public class JumpMan : MonoBehaviour
     public int faceDirection = 0;           // Direction player character is facing
     public int jumpsRemaining = 0;
     public int dashesRemaining = 0;
+    public int count;                       // Number of Coins collected
 
     public float wallSlideSpeed;
     public float wallRecoverySpeed;
@@ -46,6 +50,10 @@ public class JumpMan : MonoBehaviour
     {
         faceDirection = 1;
         moveSpeed = baseMoveSpeed;
+        count = 0;
+        SetCountText();
+        winText.text = "";
+
     }
     
     // Update is called once per frame
@@ -138,8 +146,6 @@ public class JumpMan : MonoBehaviour
             // Down  or S key was pressed while jumping, ground pound.
             groundPounding = true;
             movement.velocity = new Vector2(0, jumpForce * -3.5f);
-
-            //TODO more interesting things with ground pound.
         }
 
         if ((movement.grounded || wallJumping) && Input.GetButtonDown("Fire3"))
@@ -220,17 +226,27 @@ public class JumpMan : MonoBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             other.gameObject.SetActive(false);
+            count++;
+            SetCountText();
         }
 
-        if (other.tag != "BreakableFloor" || !groundPounding)
+        if(other.gameObject.CompareTag("EndFlag"))
         {
-            //Debug.Log("Non-Breakable Floor");
+            winText.text = "You Win!";
+        }
+
+        if (other.tag != "BreakableGround" || !groundPounding)
+        {
             return;
         }
         else
         {
-            Debug.Log("Collision: Breakable Ground");
-            Destroy(other);
+            Destroy(other.gameObject);
         }
+    }
+
+    private void SetCountText()
+    {
+        countText.text = "Coins: " + count.ToString();
     }
 }

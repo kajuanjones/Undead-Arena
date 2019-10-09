@@ -5,7 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Coin
-  - BreakableFloor
+  - BreakableGround
+  - EndFlag
+  - Arrow
+  - SprintTutorial
   layers:
   - Default
   - TransparentFX
