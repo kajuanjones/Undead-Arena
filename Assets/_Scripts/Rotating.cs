@@ -14,6 +14,10 @@ public class Rotating : MonoBehaviour
         speed = player.GetComponent<JumpMan>().movement.velocity.x * speedDampening;
         Rotate();
     }
+
+    /**
+     * Rotate will rotate a gameObject according to its velocity
+     */
     void Rotate()
     {
         if (Input.GetAxis("Horizontal") > 0)

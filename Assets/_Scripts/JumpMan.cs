@@ -17,8 +17,8 @@ public class JumpMan : MonoBehaviour
     public float jumpForce;                 // Determines how high player can jump
     public int maxJumpCount = 2;            // Number of continuous jumps allowed
     public int maxDashCount = 1;            // Number of continuous dashes allowed
-    public float wallJumpDuration = 0.5f;   
-    public float jumpDashDuration = 0.3f;   
+    public float wallJumpDuration = 0.5f;
+    public float jumpDashDuration = 0.3f;
 
     [Header("Set Dynamically")]
     public float moveSpeed;
@@ -26,7 +26,7 @@ public class JumpMan : MonoBehaviour
     public int faceDirection = 0;           // Direction player character is facing
     public int jumpsRemaining = 0;
     public int dashesRemaining = 0;
-    public int count;                       // Number of Coins collected
+    public int count = 0;                   // Number of Coins collected
 
     public float wallSlideSpeed;
     public float wallRecoverySpeed;
@@ -50,12 +50,11 @@ public class JumpMan : MonoBehaviour
     {
         faceDirection = 1;
         moveSpeed = baseMoveSpeed;
-        count = 0;
         SetCountText();
         winText.text = "";
 
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -141,7 +140,7 @@ public class JumpMan : MonoBehaviour
 
         }
 
-        if(Input.GetAxis("Vertical") < 0 && !movement.grounded && !wallJumping && !jumpDashing)
+        if (Input.GetAxis("Vertical") < 0 && !movement.grounded && !wallJumping && !jumpDashing)
         {
             // Down  or S key was pressed while jumping, ground pound.
             groundPounding = true;
@@ -153,7 +152,7 @@ public class JumpMan : MonoBehaviour
             // left shift is being pressed, start sprinting
             moveSpeed = baseMoveSpeed * 2;
         }
-        else if (!movement.grounded && !wallJumping && Input.GetButtonDown("Fire3") 
+        else if (!movement.grounded && !wallJumping && Input.GetButtonDown("Fire3")
             && dashesRemaining > 0)
         {
             // player is jumping and has pressed left shift, jumpDash
@@ -168,7 +167,7 @@ public class JumpMan : MonoBehaviour
         }
 
         // Set player velocity
-        movement.SetVelocity(moveDirection);  
+        movement.SetVelocity(moveDirection);
 
     }
 
@@ -177,7 +176,7 @@ public class JumpMan : MonoBehaviour
      * facing.
      * @param xInput The x axis input value
      */
-    public void GetFacingDirection (float xInput)
+    public void GetFacingDirection(float xInput)
     {
         if (xInput < 0)
         {
@@ -190,7 +189,7 @@ public class JumpMan : MonoBehaviour
             faceDirection = 1;
         }
     }
-    
+
     /**
     GetWallJumpDirection determines what direction to push off wall
     @returns -1 to push towards right and 1 to push towards left
@@ -225,13 +224,15 @@ public class JumpMan : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Coin"))
         {
+            // Collect coin
             other.gameObject.SetActive(false);
             count++;
             SetCountText();
         }
 
-        if(other.gameObject.CompareTag("EndFlag"))
+        if (other.gameObject.CompareTag("EndFlag"))
         {
+            // End reached
             winText.text = "You Win!";
         }
 
@@ -241,10 +242,14 @@ public class JumpMan : MonoBehaviour
         }
         else
         {
+            // Ground Pounded on a breakable floor
             Destroy(other.gameObject);
         }
     }
 
+    /**
+     * SetCountText handles updating the countText when a coin is collected
+     */
     private void SetCountText()
     {
         countText.text = "Coins: " + count.ToString();
