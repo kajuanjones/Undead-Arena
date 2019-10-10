@@ -13,11 +13,11 @@ public class JumpMan : MonoBehaviour
     public Text winText;
 
     [Header("Set in Inspector")]
-    public float baseMoveSpeed;             // Initial player speed
-    public float jumpForce;                 // Determines how high player can jump
+    public float baseMoveSpeed = 7;         // Initial player speed
+    public float jumpForce = 10;            // Determines how high player can jump
     public int maxJumpCount = 2;            // Number of continuous jumps allowed
     public int maxDashCount = 1;            // Number of continuous dashes allowed
-    public float wallJumpDuration = 0.5f;
+    public float wallJumpDuration = 0.2f;
     public float jumpDashDuration = 0.3f;
 
     [Header("Set Dynamically")]
@@ -225,6 +225,7 @@ public class JumpMan : MonoBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             // Collect coin
+            Debug.Log("Coin Collected");
             other.gameObject.SetActive(false);
             count++;
             SetCountText();
