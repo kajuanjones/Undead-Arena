@@ -132,7 +132,7 @@ public class PhysicsObject : MonoBehaviour
                 // check the normal of each of the raycasthit2d's in our list, and compare it to a minimum value.
                 // We're trying to determin if the player is grounded or not, the main manifestation of that is either they'll play falling or idling animation.
 
-                if (Mathf.Abs(currentNormal.x) > 0){
+                if (Mathf.Abs(currentNormal.x) > 0.8){
                     onWall = true;
                     wallCollision = true;
                 }
