@@ -142,7 +142,7 @@ public class JumpMan : MonoBehaviour
 
         if (Input.GetAxis("Vertical") < 0 && !movement.grounded && !wallJumping && !jumpDashing)
         {
-            // Down  or S key was pressed while jumping, ground pound.
+            // Down or S key was pressed while jumping, ground pound.
             groundPounding = true;
             movement.velocity = new Vector2(0, jumpForce * -3.5f);
         }
@@ -225,7 +225,6 @@ public class JumpMan : MonoBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             // Collect coin
-            Debug.Log("Coin Collected");
             other.gameObject.SetActive(false);
             count++;
             SetCountText();

@@ -20321,7 +20321,7 @@ MonoBehaviour:
   jumpForce: 10
   maxJumpCount: 2
   maxDashCount: 1
-  wallJumpDuration: 0.2
+  wallJumpDuration: 0.1
   jumpDashDuration: 0.3
   moveSpeed: 7
   wallJumpDirection: 0
