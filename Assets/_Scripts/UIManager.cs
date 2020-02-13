@@ -10,10 +10,19 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Level Select");
     }
 
-    public void LevelSelect()
+    public void CastleSelect()
     {
         SceneManager.LoadScene("Game Play");
+        
+       
     }
+
+    public void ArenaSelect()
+    {
+        SceneManager.LoadScene("Arena");
+    }
+
+   
 }
 
    
