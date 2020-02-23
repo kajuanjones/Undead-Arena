@@ -1,0 +1,6 @@
+<UXML xmlns = "UnityEngine.UIElements">
+  <Button name = "2DMoveAndCollide" class = "spawn-button"></Button>>
+  <Button name = "PlayerMovement" class = "spawn-button"> </Button>
+  <Button name = "UnitMovement" class = "spawn-button"> </Button>
+</UXML>
+		

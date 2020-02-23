@@ -1,0 +1,21 @@
+{
+  "name": "com.artistinterface.kinema2d",
+  "version": "1.0.0",
+  "displayName": "Kinema2D",
+  "description": "Kinematic Movement and State Machine Package",
+  "unity": "2019.3",
+  "dependencies": {
+    "com.unity.inputsystem": "1.0.0-preview.4"
+  },
+  "keywords": [
+    "tools",
+    "extensions",
+    "artistinterface"
+  ],
+  "author": {
+    "name": "Matt T",
+    "email": "mtrecozzi@gmail.com",
+    "url": "https://www.youtube.com/channel/UCJIN915dus2NWK6PnuWkFWw?view_as=subscriber"
+  },
+  "hideInEditor": true
+}

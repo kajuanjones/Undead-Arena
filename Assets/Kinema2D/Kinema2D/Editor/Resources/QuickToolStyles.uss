@@ -1,0 +1,13 @@
+.spawn-button{
+	height: 125px;
+	width: 125px;
+	margin: 5px;
+}
+
+Label{
+	height: 200px;
+}
+
+Button{
+	width: 200px;
+}
